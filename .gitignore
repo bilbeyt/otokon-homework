@@ -87,3 +87,7 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+#otokon_homework
+otokon_homework/documents
+otokon_homework/db.sqlite3
