@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+{% block content %}
+<h2 style="padding-top:5%;">Ödevler</h2>
+<hr />
+<ul class="list-group" style="padding-top:5%;padding-bottom:5%;">
+    {% for homework in homework_list %}
+    <li class="list-group-item"><a href="{% url "homework_detail" homework.lecture.slug homework.slug %}">{{ homework.lecture }} Ödev #{{ homework.number }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}

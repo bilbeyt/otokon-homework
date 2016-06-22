@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 style="padding-top:5%;">Dersler</h2>
+<hr />
+<ul class="list-group" style="padding-top:5%;padding-bottom:5%;">
+  {% for lecture in lecture_list %}
+  <li class="list-group-item"><a href="{% url "homework_list" lecture.slug %}">{{ lecture.name }}</a></li>
+  {% endfor %}
+</ul>
+{% endblock %}
