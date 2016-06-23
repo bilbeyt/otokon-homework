@@ -40,9 +40,14 @@
                             <li>
                                 <a href="{% url "lecture_list" %}">Dersler</a>
                             </li>
+                            {% if user.is_authenticated %}
                             <li>
-                                <a href="#">Soru Gönder</a>
+                                <a href="{% url "message_list" %}">Sorularım</a>
                             </li>
+                            <li>
+                                <a href="{% url "message_create" %}">Soru Gönder</a>
+                            </li>
+                            {% endif %}
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                           {% if user.is_authenticated %}

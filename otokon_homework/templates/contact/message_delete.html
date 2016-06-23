@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+{% block content %}
+<h2 style="padding-top:5%;">Mesaj Sil</h2>
+<hr />
+{% bootstrap_messages %}
+<form action="" method="post" class="form">
+   {% csrf_token %}
+   <br>
+   <div class="alert alert-info">
+    Mesajı silmek üzeresiniz. Emin misiniz ?
+   </div>
+    {% buttons %}
+   <button type="submit" class="btn btn-primary">Onayla</button>
+    {% endbuttons %}
+  </form>
+{% endblock %}

@@ -24,6 +24,7 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^homework/', include("homework.urls")),
+    url(r'^message/', include("contact.urls")),
     url(r'^accounts/', include('registration.backends.simple.urls')),
     url(r'^$', RedirectView.as_view(url=reverse_lazy("lecture_list"))),
 ]

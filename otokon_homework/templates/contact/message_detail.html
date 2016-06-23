@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+{% block content %}
+<h2 style="padding-top:5%;">{{ object.homework.slug }}</h2>
+<hr />
+{% bootstrap_messages %}
+<dl style="padding-top:5%;padding-bottom:2%;">
+  <dt>Gönderen Kişi: </dt>
+  <dd>{{ object.send_user }}</dd>
+  <dt>Gönderilen Kişi: </dt>
+  <dd>Eğitim Ekibi</dd>
+  <dt>Eklenme Tarihi: </dt>
+  <dd>{{ object.added_time }}</dd>
+  {% for item in content %}
+  <dt>{{ forloop.counter }}.Sorunuz: </dt>
+  <dd>{{ item.question.content }}</dd>
+  {% if item.answer %}
+  <dt>Cevabınız: </dt>
+  <dd>{{ item.answer.content }}</dd>
+
+  {% else %}
+  <div class="btn-group" style="padding-top:2%;">
+    <a href="{% url "message_update" item.question.slug item.question.id %}" type="button" class="btn btn-info">Mesajı Güncelle</a>
+    <a href="{% url "message_delete" item.question.slug item.question.id %}" type="button" class="btn btn-danger">Mesajı Sil</a>
+  </div>
+  <br>
+  {% endif %}
+  {% endfor %}
+  <a href="{% url "message_create" %}" type="button" class="btn btn-success">Mesaj Oluştur</a><br>
+</dl>
+{% endblock %}

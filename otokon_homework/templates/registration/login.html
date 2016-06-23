@@ -1,14 +1,16 @@
 {% extends "registration/registration_base.html" %}
-{% load i18n %}
+{% load i18n bootstrap3 %}
 
 {% block title %}{% trans "Giriş Yap" %}{% endblock %}
 
 {% block content %}
 <form method="post" action="">
     {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="{% trans 'Giriş Yap' %}" />
-    <input type="hidden" name="next" value="{{ next }}" />
+    {% bootstrap_form form %}
+    {% buttons %}
+    <button type="submit" class="btn btn-primary">{% trans "Onayla" %}</button>
+    {% endbuttons %}
+    <input type="hidden" name="next" value="{{ request.META.HTTP_REFERER }}" />
 </form>
 
 <p>{% trans "Şifrenizi mi unuttunuz?" %} <a href="{% url 'auth_password_reset' %}">{% trans "Sıfırla" %}</a>.</p>

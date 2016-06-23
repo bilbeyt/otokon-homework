@@ -1,4 +1,4 @@
-from django.shortcuts import render
+# -*- coding: utf-8 -*-
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView,UpdateView, DeleteView
 from django.views.generic.detail import DetailView
@@ -40,9 +40,10 @@ class HomeworkDetailView(DetailView):
         lecture = self.kwargs.get("lecture")
         slug = self.kwargs.get("slug")
         homework = Homework.objects.get(lecture__slug=lecture, slug=slug)
-        answers = AnswerSheet.objects.filter(homework=homework, user=self.request.user)
         context = super(HomeworkDetailView, self).get_context_data(**kwargs)
-        context["answers"] = answers
+        if self.request.user.is_authenticated():
+            answers = AnswerSheet.objects.filter(homework=homework, user=self.request.user)
+            context["answers"] = answers
         return context
 
 
@@ -62,7 +63,7 @@ class AnswerSheetCreateView(CreateView):
         instance.user = self.request.user
         homework = Homework.objects.get(slug=self.kwargs.get("slug"))
         instance.homework = homework
-        messages.success(self.request, "Created successfully")
+        messages.success(self.request, "Başarıyla oluşturuldu.")
         return super(AnswerSheetCreateView, self).form_valid(form)
 
     def get_success_url(self):
@@ -79,7 +80,7 @@ class AnswerSheetUpdateView(UpdateView):
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
-        obj = self.get_object();
+        obj = self.get_object()
         if not obj.user == self.request.user:
             raise PermissionDenied
         return super(AnswerSheetUpdateView, self).dispatch(
@@ -89,7 +90,7 @@ class AnswerSheetUpdateView(UpdateView):
         instance = form.instance
         instance.user = self.request.user
         instance.homework = self.kwargs.get("homework")
-        messages.success(self.request, "Updated successfully.")
+        messages.success(self.request, "Başarıyla güncellendi")
         return super(AnswerSheetUpdateView, self).form_valid(form)
 
     def get_success_url(self):
@@ -110,7 +111,7 @@ class AnswerSheetDeleteView(DeleteView):
         return super(AnswerSheetDeleteView, self).dispatch(*args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
-        messages.info(request, "Deleted successfully.")
+        messages.info(request, "Başarıyla silindi")
         return super(AnswerSheetDeleteView, self).delete(request, *args, **kwargs)
 
     def get_success_url(self):

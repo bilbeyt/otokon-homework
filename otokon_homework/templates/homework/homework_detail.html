@@ -4,7 +4,7 @@
 <h2 style="padding-top:5%;">{{ object.lecture }} Ödev #{{ object.number }}</h2>
 <hr />
 {% bootstrap_messages %}
-<dl style="padding-top:5%;padding-bottom:5%;">
+<dl style="padding-top:5%;padding-bottom:2%;">
   <dt>Ödev Açıklaması: </dt>
   <dd>{{ object.content }}</dd>
   <dt>Ödev: </dt>
@@ -14,7 +14,16 @@
   <dt>Eklenme Tarihi: </dt>
   <dd>{{ object.publish_date }}</dd>
   <a href="{% url "answer_create" object.lecture.slug object.slug %}" type="button" class="btn btn-success">Cevap Oluştur</a><br>
+</dl>
+
+  {% if answers %}
+  <dl>
+  <dt>Sizin Cevaplarınız:</dt>
+  {% endif %}
   {% for answer in answers %}
+  <dd>
+    <a href="{{ MEDIA_URL }}{{ object.document }}">{{ forloop.counter }}.{{ object.filename }}</a>
+  </dd>
   <div class="btn-group" style="padding-top:2%;">
     <a href="{% url "answer_update" object.lecture.slug object.slug answer.id %}" type="button" class="btn btn-info">Cevabı Güncelle</a>
     <a href="{% url "answer_delete" object.lecture.slug object.slug answer.id %}" type="button" class="btn btn-danger">Cevabı Sil</a>
