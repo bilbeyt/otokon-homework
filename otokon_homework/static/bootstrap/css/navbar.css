@@ -1,14 +1,10 @@
-body {
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
 
-.navbar {
-  top: 0;
-  margin-bottom: 20px;
-}
 .panel-footer {
   position: absolute;
   bottom: 0;
   width: 100%;
+}
+
+.navbar-static-top {
+  margin-bottom: 19px;
 }
