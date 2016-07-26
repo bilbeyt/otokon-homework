@@ -44,9 +44,6 @@ INSTALLED_APPS = [
     "bootstrap3",
 ]
 
-SITE_ID = 1
-EMAIL_HOST = "localhost"
-EMAIL_PORT = 1025
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
