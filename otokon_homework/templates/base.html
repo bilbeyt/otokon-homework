@@ -22,7 +22,8 @@
     </head>
     <body>
             <!-- Static navbar -->
-            <nav class="navbar navbar-default navbar-fixed-top">
+
+            <nav class="navbar navbar-default navbar-static-top">
                 <div class="container">
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -64,14 +65,15 @@
                 </div>
                 <!--/.container-fluid -->
             </nav>
-            <div class ="container">
+
+	    <div class="container">
             {% block content %}{% endblock %}
-          </div>
-        <footer class="panel-footer">
-          <div class="container">
-            <p align="right">OTOKON Bilişim Ekibi 2016-2017</p>
-          </div>
-        </footer>
+	    </div>
+            <footer class="panel-footer">
+		<div class="container">
+		    <p align="right">OTOKON Bilişim Ekibi 2016-2017</p>
+		<div>
+	    </footer>
             <!-- Main component for a primary marketing message or call to action -->
         <!-- /container -->
         <!-- Bootstrap core JavaScript

@@ -6,6 +6,8 @@
 <ul class="list-group" style="padding-top:5%;padding-bottom:5%;">
     {% for homework in homework_list %}
     <li class="list-group-item"><a href="{% url "homework_detail" homework.lecture.slug homework.slug %}">{{ homework.lecture }} Ödev #{{ homework.number }}</a></li>
+    {% empty %}
+    <p>Ödev eklenmemiş</p>
     {% endfor %}
 </ul>
 {% endblock %}
