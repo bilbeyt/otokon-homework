@@ -6,9 +6,7 @@
 {% endblock %}
 
 {% block content %}
-<div style="padding-top:10%">
 <div class="jumbotron">
   <p class="text-center">Başarıyla çıkış yaptınız.Giriş yapmak için <a href="/accounts/login/">link</a>.</p>
-</div>
 </div>
 {% endblock %}

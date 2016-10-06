@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.models import User
 from contact.models import Message
-from contact.forms import MessageCreateForm, MessageUpdateForm
+from contact.forms import MessageCreateForm, MessageUpdateForm, AnswerMessageForm
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView,UpdateView, DeleteView
 from django.views.generic.detail import DetailView
@@ -27,6 +27,10 @@ class MessageListView(ListView):
         for slug in slug_list:
             obj = Message.objects.filter(send_user=self.request.user, homework__slug=slug)[0]
             message_list.append(obj)
+        if self.request.user.groups.filter(name="lecturer").exists():
+            for message in Message.objects.filter(to_user=self.request.user):
+                if not message.is_answered:
+                    message_list.append(message)
         context["message_list"] = message_list
         return context
 
@@ -38,7 +42,7 @@ class MessageDetailView(DetailView):
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         obj = self.get_object()
-        if not obj.send_user == self.request.user:
+        if not obj.send_user == self.request.user and not self.request.user == obj.to_user:
             raise PermissionDenied
         return super(MessageDetailView, self).dispatch(request, *args, **kwargs)
 
@@ -51,17 +55,8 @@ class MessageDetailView(DetailView):
         obj = self.get_object()
         context = super(MessageDetailView, self).get_context_data(**kwargs)
         questions = Message.objects.filter(homework=obj.homework, send_user=self.request.user)
-        answers = Message.objects.filter(homework=obj.homework, to_user=self.request.user)
-        content = []
-        for i in range(0,questions.count()):
-            couple = dict()
-            question = questions[i]
-            couple["question"] = question
-            if answers.count() > i:
-                answer = answers[i]
-                couple["answer"] = answer
-            content.append(couple)
-        context["content"] = content
+        context["content"] = questions
+        context["permission"] = self.request.user.groups.filter(name="lecturer").exists()
         return context
 
 
@@ -78,7 +73,7 @@ class MessageCreateView(CreateView):
     def form_valid(self, form):
         instance = form.instance
         instance.send_user = self.request.user
-        instance.to_user = User.objects.filter(is_superuser=True)[0]
+        instance.to_user = instance.homework.lecturer
         messages.success(self.request, "Başarıyla oluşturuldu")
         return super(MessageCreateView, self).form_valid(form)
 
@@ -86,25 +81,31 @@ class MessageCreateView(CreateView):
 class MessageUpdateView(UpdateView):
     model = Message
     template_name = "contact/message_update.html"
-    form_class = MessageUpdateForm
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         obj = self.get_object()
-        if not obj.send_user == self.request.user or obj.is_answered == True:
+        if not obj.send_user == self.request.user and not self.request.user == obj.to_user or obj.is_answered == True:
             raise PermissionDenied
         return super(MessageUpdateView, self).dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
         instance = form.instance
         instance.send_user = self.request.user
-        instance.to_user = User.objects.filter(is_superuser=True)[0]
+        instance.to_user = instance.homework.lecturer
         messages.info(self.request, "Başarıyla güncellendi")
         return super(MessageUpdateView, self).form_valid(form)
 
     def get_success_url(self):
         slug = self.kwargs.get("slug")
         return reverse("message_detail", args=(slug,))
+
+    def get_form_class(self):
+        if self.request.user.groups.filter(name="lecturer").exists():
+            form_class=AnswerMessageForm
+        else:
+            form_class=MessageUpdateForm
+        return form_class
 
 
 class MessageDeleteView(DeleteView):

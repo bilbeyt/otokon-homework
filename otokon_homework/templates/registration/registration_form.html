@@ -4,7 +4,7 @@
 {% block title %}{% trans "Kayıt ol" %}{% endblock %}
 
 {% block content %}
-<form method="post" action="">
+<form method="post" action="" style="padding-top:20%;max-width:500px;display:block;margin:auto">
     {% csrf_token %}
     {% bootstrap_form form %}
     {% buttons %}

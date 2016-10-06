@@ -9,26 +9,28 @@
   <dd>{{ object.content }}</dd>
   <dt>Ödev: </dt>
   <dd>
-    <a href="{{ MEDIA_URL }}{{ object.document }}"<i class="fa fa-download">{{ object.filename }}</i></a>
+    <a href="{{ MEDIA_URL }}{{ object.document }}"<i class="fa fa-download">Ödev</i></a>
   </dd>
   <dt>Eklenme Tarihi: </dt>
   <dd>{{ object.publish_date }}</dd>
-  <a href="{% url "answer_create" object.lecture.slug object.slug %}" type="button" class="btn btn-success">Cevap Oluştur</a><br>
+  <div style="padding-top:25px;">
+    <a href="{% url "answer_create" object.lecture.slug object.slug %}" type="button" class="btn btn-success">Cevap Oluştur</a><br>
+  </div>
 </dl>
 
   {% if answers %}
   <dl>
-  <dt>Sizin Cevaplarınız:</dt>
+  <dt style="padding-bottom:25px;">Sizin Cevaplarınız:</dt>
   {% endif %}
   {% for answer in answers %}
   <dd>
-    <a href="{{ MEDIA_URL }}{{ object.document }}">{{ forloop.counter }}.{{ object.filename }}</a>
+    <a href="{{ MEDIA_URL }}{{ object.document }}" type="button">{{ forloop.counter }}.{{ object.filename }}</a>
   </dd>
   <div class="btn-group" style="padding-top:2%;">
     <a href="{% url "answer_update" object.lecture.slug object.slug answer.id %}" type="button" class="btn btn-info">Cevabı Güncelle</a>
     <a href="{% url "answer_delete" object.lecture.slug object.slug answer.id %}" type="button" class="btn btn-danger">Cevabı Sil</a>
   </div>
-  <br>
+  <br><br>
   {% endfor %}
 </dl>
 {% endblock %}

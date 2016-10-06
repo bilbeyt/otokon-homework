@@ -4,17 +4,17 @@
 {% block title %}{% trans "Giriş Yap" %}{% endblock %}
 
 {% block content %}
-<form method="post" action="">
+<form method="post" action="" style="padding-top:20%;max-width:500px;display:block;margin:auto">
     {% csrf_token %}
     {% bootstrap_form form %}
     {% buttons %}
     <button type="submit" class="btn btn-primary">{% trans "Onayla" %}</button>
     {% endbuttons %}
-    <input type="hidden" name="next" value="{{ request.META.HTTP_REFERER }}" />
+    <input type="hidden" name="next" value="/" />
 </form>
-
+<div style="max-width:500px;display:block;margin:auto">
 <p>{% trans "Şifrenizi mi unuttunuz?" %} <a href="{% url 'auth_password_reset' %}">{% trans "Sıfırla" %}</a>.</p>
-<p>{% trans "Üye değil misiniz?" %} <a href="{% url 'registration_register' %}">{% trans "Kayıt Ol" %}</a>.</p>
+<p>{% trans "Üye değil misiniz?" %} <a href="{% url 'registration_register' %}">{% trans "Kayıt Ol" %}</a>.</p></div>
 {% endblock %}
 
 

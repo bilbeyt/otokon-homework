@@ -4,9 +4,11 @@ from django.template.defaultfilters import slugify
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.contrib.auth.models import User
+from django.utils.encoding import python_2_unicode_compatible
 import os
 
 
+@python_2_unicode_compatible
 class Lecture(models.Model):
     name = models.CharField(max_length=100)
     is_available = models.BooleanField(default=False)
@@ -25,9 +27,11 @@ def get_answers_upload_path(instance, filename):
                                     instance.homework, instance.user, filename)
 
 
+@python_2_unicode_compatible
 class Homework(models.Model):
     lecture = models.ForeignKey(Lecture)
     number = models.PositiveSmallIntegerField()
+    lecturer = models.ForeignKey(User)
     publish_date = models.DateTimeField(auto_now_add=True)
     content = models.TextField()
     document = models.FileField(upload_to=get_homework_detail_path)
@@ -42,6 +46,7 @@ class Homework(models.Model):
         return os.path.basename(self.document.name)
 
 
+@python_2_unicode_compatible
 class AnswerSheet(models.Model):
     user = models.ForeignKey(User)
     homework = models.ForeignKey(Homework,
@@ -61,7 +66,7 @@ def lecture_slug_handler(sender,instance,*args,**kwargs):
 
 @receiver(pre_save,sender=Homework)
 def homework_slug_handler(sender,instance,*args,**kwargs):
-    title = "{} {}".format(instance.lecture, instance.number)
+    title = "homework-{}".format(instance.number)
     instance.slug = slugify(title)
 
 @receiver(pre_save,sender=AnswerSheet)

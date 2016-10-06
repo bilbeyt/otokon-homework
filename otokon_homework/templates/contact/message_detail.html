@@ -1,31 +1,44 @@
 {% extends "base.html" %}
 {% load bootstrap3 %}
 {% block content %}
-<h2 style="padding-top:5%;">{{ object.homework.slug }}</h2>
+<h2 style="padding-top:5%;">{{ object.homework.slug|capfirst }}</h2>
 <hr />
 {% bootstrap_messages %}
 <dl style="padding-top:5%;padding-bottom:2%;">
   <dt>Gönderen Kişi: </dt>
   <dd>{{ object.send_user }}</dd>
   <dt>Gönderilen Kişi: </dt>
-  <dd>Eğitim Ekibi</dd>
+  <dd>{{ object.to_user }}</dd>
   <dt>Eklenme Tarihi: </dt>
   <dd>{{ object.added_time }}</dd>
+  {% if not permission %}
   {% for item in content %}
   <dt>{{ forloop.counter }}.Sorunuz: </dt>
-  <dd>{{ item.question.content }}</dd>
+  <dd>{{ item.content }}</dd>
   {% if item.answer %}
   <dt>Cevabınız: </dt>
-  <dd>{{ item.answer.content }}</dd>
+  <dd>{{ item.answer }}</dd>
 
   {% else %}
-  <div class="btn-group" style="padding-top:2%;">
-    <a href="{% url "message_update" item.question.slug item.question.id %}" type="button" class="btn btn-info">Mesajı Güncelle</a>
-    <a href="{% url "message_delete" item.question.slug item.question.id %}" type="button" class="btn btn-danger">Mesajı Sil</a>
+  <div class="btn-group" style="padding-top:20px;">
+    <a href="{% url "message_update" item.slug item.id %}" type="button" class="btn btn-info">Mesajı Güncelle</a>
+    <a href="{% url "message_delete" item.slug item.id %}" type="button" class="btn btn-danger">Mesajı Sil</a>
   </div>
   <br>
   {% endif %}
   {% endfor %}
-  <a href="{% url "message_create" %}" type="button" class="btn btn-success">Mesaj Oluştur</a><br>
+  <br><br>
+  <a href="{% url "message_create" %}" type="button" class="btn btn-success">Mesaj Oluştur</a>
+  {% else %}
+  <dt>Soru</dt>
+  <dd>{{ object.content }}</dd>
+  {% if object.answer %}
+  <dt>Cevap</dt>
+  <dd>{{ object.answer }}</dd>
+  {% else %}
+  <a href="{% url "message_update" object.slug object.id %}" type="button" class="btn btn-info">Cevapla</a>
+  {% endif %}
+
+  {% endif %}
 </dl>
 {% endblock %}

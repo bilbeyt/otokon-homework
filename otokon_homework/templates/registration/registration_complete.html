@@ -4,7 +4,15 @@
 {% block title %}{% trans "Kayıt etkinleştirme emaili gönderildi" %}{% endblock %}
 
 {% block content %}
-<p>{% trans "Lütfen email adresinizi kayıt işlemini tamamlamak için kontrol edin" %}</p>
+<script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+<script>
+  $(document).ready(function(){
+    var form = $('<form action="/" method="get">' +
+    '</form>');
+    $('body').append(form);
+    form.submit();
+  });
+</script>
 {% endblock %}
 
 

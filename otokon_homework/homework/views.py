@@ -15,6 +15,11 @@ class LectureListView(ListView):
     model = Lecture
     template_name = "homework/lecture_list.html"
 
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(LectureListView, self).dispatch(
+                                                    request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super(LectureListView, self).get_context_data(**kwargs)
         context["lecture_list"] = Lecture.objects.filter(is_available=True)
@@ -24,6 +29,11 @@ class LectureListView(ListView):
 class HomeworkListView(ListView):
     model = Homework
     template_name = "homework/homework_list.html"
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(HomeworkListView, self).dispatch(
+                                                    request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         homeworks = Homework.objects.filter(lecture__slug=self.kwargs.get("lecture"))
@@ -35,6 +45,11 @@ class HomeworkListView(ListView):
 class HomeworkDetailView(DetailView):
     model = Homework
     template_name = "homework/homework_detail.html"
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(HomeworkDetailView, self).dispatch(
+                                                    request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         lecture = self.kwargs.get("lecture")
@@ -59,18 +74,20 @@ class AnswerSheetCreateView(CreateView):
                                                     request, *args, **kwargs)
 
     def form_valid(self, form):
+        import pdb;pdb.set_trace()
+        lecture_slug = self.kwargs.get("lecture")
         instance = form.instance
         instance.user = self.request.user
-        homework = Homework.objects.get(slug=self.kwargs.get("slug"))
+        lecture = Lecture.objects.get(slug=lecture_slug)
+        homework = Homework.objects.filter(lecture=lecture).get(slug=self.kwargs.get("slug"))
         instance.homework = homework
         messages.success(self.request, "Başarıyla oluşturuldu.")
         return super(AnswerSheetCreateView, self).form_valid(form)
 
     def get_success_url(self):
         lecture = self.kwargs.get("lecture")
-        obj = self.get_object()
-        return reverse("homework_detail", args=[lecture, obj.homework.slug,])
-
+        slug = self.kwargs.get("slug")
+        return reverse("homework_detail", args=[lecture, slug,])
 
 
 class AnswerSheetUpdateView(UpdateView):

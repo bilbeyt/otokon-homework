@@ -6,7 +6,7 @@
 {% bootstrap_messages %}
 <ul class="list-group" style="padding-top:5%;padding-bottom:5%;">
   {% for message in message_list %}
-  <li class="list-group-item"><a href="{% url "message_detail" message.slug %}">{{ message.homework.slug }}</a></li>
+  <li class="list-group-item"><a href="{% url "message_detail" message.slug %}">{{ message.homework.slug|capfirst }}</a></li>
   {% endfor %}
   {% if not message_list %}
   <p>Henüz bir mesajınız yok.</p>
