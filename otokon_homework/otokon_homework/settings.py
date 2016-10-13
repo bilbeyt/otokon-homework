@@ -125,6 +125,8 @@ USE_TZ = True
 SITE_ID= 3
 
 REGISTRATION_OPEN = True
+DEFAULT_FROM_EMAIL = "otokon@itu.edu.tr"
+EMAIL_USE_TLS = True
 
 
 # Static files (CSS, JavaScript, Images)
@@ -139,3 +141,5 @@ STATICFILES_DIRS = (
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.abspath(
 os.path.join(BASE_DIR, os.pardir, "public", "media"))
+
+import local_settings
