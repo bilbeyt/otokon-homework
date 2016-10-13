@@ -33,7 +33,7 @@ class Homework(models.Model):
     number = models.PositiveSmallIntegerField()
     lecturer = models.ForeignKey(User)
     publish_date = models.DateTimeField(auto_now_add=True)
-    content = models.TextField()
+    content = models.TextField(null=True, blank=True)
     document = models.FileField(upload_to=get_homework_detail_path)
     is_available = models.BooleanField(default=False)
     slug = models.SlugField(max_length=100,blank=True,null=True)
@@ -51,7 +51,7 @@ class AnswerSheet(models.Model):
     user = models.ForeignKey(User)
     homework = models.ForeignKey(Homework,
                                 limit_choices_to={"is_available" : True})
-    comment = models.TextField()
+    comment = models.TextField(null=True, blank=True)
     answers = models. FileField(upload_to=get_answers_upload_path)
     slug = models.SlugField(max_length=100,blank=True,null=True)
     publish_date = models.DateTimeField(auto_now_add=True)

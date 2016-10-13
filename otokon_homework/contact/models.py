@@ -13,7 +13,7 @@ class Message(models.Model):
     homework = models.ForeignKey(Homework)
     title = models.CharField(max_length=100)
     content = models.TextField()
-    answer = models.TextField(null=True)
+    answer = models.TextField(null=True, blank=True)
     is_answered = models.BooleanField(default=False)
     slug = models.SlugField(max_length=100)
     added_time = models.DateTimeField(auto_now_add=True)
