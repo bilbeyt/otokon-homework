@@ -24,7 +24,7 @@
   {% endif %}
   {% for answer in answers %}
   <dd>
-    <a href="{{ MEDIA_URL }}{{ object.document }}" type="button">{{ forloop.counter }}.{{ object.filename }}</a>
+    <a href="{{ MEDIA_URL }}{{ answer.answers }}" type="button">{{ forloop.counter }}. cevap</a>
   </dd>
   <div class="btn-group" style="padding-top:2%;">
     <a href="{% url "answer_update" object.lecture.slug object.slug answer.id %}" type="button" class="btn btn-info">Cevabı Güncelle</a>

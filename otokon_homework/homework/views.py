@@ -74,7 +74,6 @@ class AnswerSheetCreateView(CreateView):
                                                     request, *args, **kwargs)
 
     def form_valid(self, form):
-        import pdb;pdb.set_trace()
         lecture_slug = self.kwargs.get("lecture")
         instance = form.instance
         instance.user = self.request.user
