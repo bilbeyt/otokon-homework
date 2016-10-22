@@ -56,7 +56,10 @@ class MessageDetailView(DetailView):
         context = super(MessageDetailView, self).get_context_data(**kwargs)
         questions = Message.objects.filter(homework=obj.homework, send_user=self.request.user)
         context["content"] = questions
-        context["permission"] = self.request.user.groups.filter(name="lecturer").exists()
+        if self.request.user == obj.homework.lecturer:
+            context["permission"] = True
+        else:
+            context["permission"] = False
         return context
 
 
