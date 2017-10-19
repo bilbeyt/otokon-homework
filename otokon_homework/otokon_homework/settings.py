@@ -122,7 +122,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-SITE_ID= 3
+SITE_ID= 1
 
 REGISTRATION_OPEN = True
 DEFAULT_FROM_EMAIL = "otokon@itu.edu.tr"
