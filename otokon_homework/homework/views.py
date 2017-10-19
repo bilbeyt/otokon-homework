@@ -50,6 +50,11 @@ class HomeworkDetailView(DetailView):
     def dispatch(self, request, *args, **kwargs):
         return super(HomeworkDetailView, self).dispatch(
                                                     request, *args, **kwargs)
+    def get_object(self, queryset=None):
+        lecture = self.kwargs.get("lecture")
+        slug = self.kwargs.get("slug")
+        homework = Homework.objects.get(lecture__slug=lecture, slug=slug)
+        return homework        
 
     def get_context_data(self, **kwargs):
         lecture = self.kwargs.get("lecture")

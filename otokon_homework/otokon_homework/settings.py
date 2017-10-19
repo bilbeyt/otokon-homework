@@ -142,4 +142,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.abspath(
 os.path.join(BASE_DIR, os.pardir, "public", "media"))
 
-import local_settings
+try:
+    import local_settings
+except:
+    pass
